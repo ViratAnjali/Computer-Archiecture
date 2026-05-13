@@ -40,7 +40,7 @@
                 "app_path": "/proc",
                 "eventq_index": 0,
                 "host_paths": [
-                    "/root/gem5/Project2-Submission/Problem2/conf1//fs/proc"
+                    "Project3-Submission/conf1//fs/proc"
                 ]
             },
             {
@@ -51,7 +51,7 @@
                 "app_path": "/sys",
                 "eventq_index": 0,
                 "host_paths": [
-                    "/root/gem5/Project2-Submission/Problem2/conf1//fs/sys"
+                    "Project3-Submission/conf1//fs/sys"
                 ]
             },
             {
@@ -62,7 +62,7 @@
                 "app_path": "/tmp",
                 "eventq_index": 0,
                 "host_paths": [
-                    "/root/gem5/Project2-Submission/Problem2/conf1//fs/tmp"
+                    "Project3-Submission/conf1//fs/tmp"
                 ]
             }
         ],
@@ -112,18 +112,18 @@
                 "activity": 0,
                 "backComSize": 5,
                 "branchPred": {
-                    "type": "CustomBP",
-                    "cxx_class": "CustomBP",
+                    "type": "TournamentBP",
+                    "cxx_class": "TournamentBP",
                     "name": "branchPred",
                     "path": "system.cpu.branchPred",
                     "BTBEntries": 4096,
                     "BTBTagSize": 16,
-                    "PHTCtrlBits": 2,
-                    "PredictorSize": 256,
                     "RASSize": 16,
-                    "branchAddressBits": 8,
+                    "choiceCtrBits": 2,
+                    "choicePredictorSize": 8192,
                     "eventq_index": 0,
-                    "globalHistoryBits": 8,
+                    "globalCtrBits": 2,
+                    "globalPredictorSize": 8192,
                     "indirectBranchPred": {
                         "type": "SimpleIndirectPredictor",
                         "cxx_class": "SimpleIndirectPredictor",
@@ -141,6 +141,9 @@
                         "numThreads": 1
                     },
                     "instShiftAmt": 2,
+                    "localCtrBits": 2,
+                    "localHistoryTableSize": 2048,
+                    "localPredictorSize": 2048,
                     "numThreads": 1
                 },
                 "cacheLoadPorts": 200,
@@ -1045,8 +1048,8 @@
                         "name": "workload",
                         "path": "system.cpu.workload",
                         "cmd": [
-                            "./benchmarks/qsort/qsort_small",
-                            "./benchmarks/qsort/input_small.dat"
+                            "./benchmarks/dijkstra/dijkstra_small",
+                            "./benchmarks/dijkstra/input.dat"
                         ],
                         "cwd": "/root/gem5",
                         "drivers": [],
@@ -1055,7 +1058,7 @@
                         "errout": "cerr",
                         "euid": 100,
                         "eventq_index": 0,
-                        "executable": "./benchmarks/qsort/qsort_small",
+                        "executable": "./benchmarks/dijkstra/dijkstra_small",
                         "gid": 100,
                         "input": "cin",
                         "kvmInSE": false,
@@ -1108,15 +1111,16 @@
                     "prefetcher": null,
                     "replace_expansions": true,
                     "replacement_policy": {
-                        "type": "LRURP",
-                        "cxx_class": "ReplacementPolicy::LRU",
+                        "type": "LRU_Variation",
+                        "cxx_class": "ReplacementPolicy::LRU_Variation",
                         "name": "replacement_policy",
                         "path": "system.cpu.dcache.replacement_policy",
-                        "eventq_index": 0
+                        "eventq_index": 0,
+                        "numWays": 2
                     },
                     "response_latency": 2,
                     "sequential_access": false,
-                    "size": 65536,
+                    "size": 32768,
                     "system": "system",
                     "tag_latency": 2,
                     "tags": {
@@ -1137,7 +1141,7 @@
                             "assoc": 2,
                             "entry_size": 64,
                             "eventq_index": 0,
-                            "size": 65536
+                            "size": 32768
                         },
                         "power_model": [],
                         "power_state": {
@@ -1155,7 +1159,7 @@
                         },
                         "replacement_policy": "system.cpu.dcache.replacement_policy",
                         "sequential_access": false,
-                        "size": 65536,
+                        "size": 32768,
                         "system": "system",
                         "tag_latency": 2,
                         "warmup_percentage": 0
@@ -1213,11 +1217,12 @@
                     "prefetcher": null,
                     "replace_expansions": true,
                     "replacement_policy": {
-                        "type": "LRURP",
-                        "cxx_class": "ReplacementPolicy::LRU",
+                        "type": "LRU_Variation",
+                        "cxx_class": "ReplacementPolicy::LRU_Variation",
                         "name": "replacement_policy",
                         "path": "system.cpu.icache.replacement_policy",
-                        "eventq_index": 0
+                        "eventq_index": 0,
+                        "numWays": 2
                     },
                     "response_latency": 2,
                     "sequential_access": false,
@@ -1335,7 +1340,7 @@
             "addr_ranges": [
                 "0:18446744073709551615"
             ],
-            "assoc": 8,
+            "assoc": 16,
             "clk_domain": "system.cpu_clk_domain",
             "clusivity": "mostly_incl",
             "compressor": null,
@@ -1364,15 +1369,16 @@
             "prefetcher": null,
             "replace_expansions": true,
             "replacement_policy": {
-                "type": "LRURP",
-                "cxx_class": "ReplacementPolicy::LRU",
+                "type": "LRU_Variation",
+                "cxx_class": "ReplacementPolicy::LRU_Variation",
                 "name": "replacement_policy",
                 "path": "system.l2.replacement_policy",
-                "eventq_index": 0
+                "eventq_index": 0,
+                "numWays": 16
             },
             "response_latency": 20,
             "sequential_access": false,
-            "size": 2097152,
+            "size": 131072,
             "system": "system",
             "tag_latency": 20,
             "tags": {
@@ -1380,7 +1386,7 @@
                 "cxx_class": "BaseSetAssoc",
                 "name": "tags",
                 "path": "system.l2.tags",
-                "assoc": 8,
+                "assoc": 16,
                 "block_size": 64,
                 "clk_domain": "system.cpu_clk_domain",
                 "entry_size": 64,
@@ -1390,10 +1396,10 @@
                     "cxx_class": "SetAssociative",
                     "name": "indexing_policy",
                     "path": "system.l2.tags.indexing_policy",
-                    "assoc": 8,
+                    "assoc": 16,
                     "entry_size": 64,
                     "eventq_index": 0,
-                    "size": 2097152
+                    "size": 131072
                 },
                 "power_model": [],
                 "power_state": {
@@ -1411,7 +1417,7 @@
                 },
                 "replacement_policy": "system.l2.replacement_policy",
                 "sequential_access": false,
-                "size": 2097152,
+                "size": 131072,
                 "system": "system",
                 "tag_latency": 20,
                 "warmup_percentage": 0
